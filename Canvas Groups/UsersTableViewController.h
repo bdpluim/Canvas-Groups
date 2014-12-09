@@ -10,5 +10,8 @@
 #import <CanvasKit.h>
 
 @interface UsersTableViewController : UITableViewController
+
 @property (nonatomic, strong) CKIGroup *group;
+@property (nonatomic, strong) CKIGroupCategory *category;
+
 @end

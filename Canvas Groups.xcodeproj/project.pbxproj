@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E0594D81A363FA80042B46F /* CategoriesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0594D71A363FA80042B46F /* CategoriesTableViewController.m */; };
 		AD570E8F66F7968E6D610DB9 /* libPods-Canvas Groups.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FD8EE54C4FC4EC35973F34F /* libPods-Canvas Groups.a */; };
-		BD000D721A310BFE0033F7AF /* InviteUsersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD000D711A310BFE0033F7AF /* InviteUsersTableViewController.m */; };
+		BD000D721A310BFE0033F7AF /* EditGroupUserTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BD000D711A310BFE0033F7AF /* EditGroupUserTableViewController.m */; };
 		BD000D781A31FE3C0033F7AF /* UserMembershipTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BD000D771A31FE3C0033F7AF /* UserMembershipTableViewCell.m */; };
 		BD1B83801A2FAE3800932B6E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BD1B837F1A2FAE3800932B6E /* main.m */; };
 		BD1B83831A2FAE3800932B6E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BD1B83821A2FAE3800932B6E /* AppDelegate.m */; };
@@ -35,11 +36,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5E0594D61A363FA80042B46F /* CategoriesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoriesTableViewController.h; sourceTree = "<group>"; };
+		5E0594D71A363FA80042B46F /* CategoriesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesTableViewController.m; sourceTree = "<group>"; };
 		8FD8EE54C4FC4EC35973F34F /* libPods-Canvas Groups.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Canvas Groups.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		974351F687828CE858FF4486 /* Pods-Canvas Groups.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Canvas Groups.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Canvas Groups/Pods-Canvas Groups.debug.xcconfig"; sourceTree = "<group>"; };
 		B7FE466E6E3AEDB9DC8F056D /* Pods-Canvas Groups.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Canvas Groups.release.xcconfig"; path = "Pods/Target Support Files/Pods-Canvas Groups/Pods-Canvas Groups.release.xcconfig"; sourceTree = "<group>"; };
-		BD000D701A310BFE0033F7AF /* InviteUsersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteUsersTableViewController.h; sourceTree = "<group>"; };
-		BD000D711A310BFE0033F7AF /* InviteUsersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteUsersTableViewController.m; sourceTree = "<group>"; };
+		BD000D701A310BFE0033F7AF /* EditGroupUserTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditGroupUserTableViewController.h; sourceTree = "<group>"; };
+		BD000D711A310BFE0033F7AF /* EditGroupUserTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditGroupUserTableViewController.m; sourceTree = "<group>"; };
 		BD000D761A31FE3C0033F7AF /* UserMembershipTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserMembershipTableViewCell.h; sourceTree = "<group>"; };
 		BD000D771A31FE3C0033F7AF /* UserMembershipTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserMembershipTableViewCell.m; sourceTree = "<group>"; };
 		BD1B837A1A2FAE3800932B6E /* Canvas Groups.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Canvas Groups.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -128,26 +131,28 @@
 			children = (
 				BD1B83811A2FAE3800932B6E /* AppDelegate.h */,
 				BD1B83821A2FAE3800932B6E /* AppDelegate.m */,
-				BD1B83841A2FAE3800932B6E /* ViewController.h */,
-				BD1B83851A2FAE3800932B6E /* ViewController.m */,
-				BD1B83871A2FAE3800932B6E /* Main.storyboard */,
-				BD1B838A1A2FAE3800932B6E /* Images.xcassets */,
-				BD1B838C1A2FAE3800932B6E /* LaunchScreen.xib */,
-				BD1B837D1A2FAE3800932B6E /* Supporting Files */,
 				BD1B83A31A2FB56E00932B6E /* CanvasKitManager.h */,
 				BD1B83A41A2FB56E00932B6E /* CanvasKitManager.m */,
-				BD7901011A2FCE13002B4044 /* GroupsTableViewController.h */,
-				BD7901021A2FCE13002B4044 /* GroupsTableViewController.m */,
-				BD7901041A2FCF99002B4044 /* UsersTableViewController.h */,
-				BD7901051A2FCF99002B4044 /* UsersTableViewController.m */,
-				BDFD2AD31A30CA7F006784CE /* NewGroupViewController.h */,
-				BDFD2AD41A30CA7F006784CE /* NewGroupViewController.m */,
-				BD000D701A310BFE0033F7AF /* InviteUsersTableViewController.h */,
-				BD000D711A310BFE0033F7AF /* InviteUsersTableViewController.m */,
-				BD000D761A31FE3C0033F7AF /* UserMembershipTableViewCell.h */,
-				BD000D771A31FE3C0033F7AF /* UserMembershipTableViewCell.m */,
+				5E0594D61A363FA80042B46F /* CategoriesTableViewController.h */,
+				5E0594D71A363FA80042B46F /* CategoriesTableViewController.m */,
 				BDE9FDA21A325F3A00E369EB /* CoursesTableViewController.h */,
 				BDE9FDA31A325F3A00E369EB /* CoursesTableViewController.m */,
+				BD7901011A2FCE13002B4044 /* GroupsTableViewController.h */,
+				BD7901021A2FCE13002B4044 /* GroupsTableViewController.m */,
+				BD1B838A1A2FAE3800932B6E /* Images.xcassets */,
+				BD000D701A310BFE0033F7AF /* EditGroupUserTableViewController.h */,
+				BD000D711A310BFE0033F7AF /* EditGroupUserTableViewController.m */,
+				BD1B838C1A2FAE3800932B6E /* LaunchScreen.xib */,
+				BD1B83871A2FAE3800932B6E /* Main.storyboard */,
+				BDFD2AD31A30CA7F006784CE /* NewGroupViewController.h */,
+				BDFD2AD41A30CA7F006784CE /* NewGroupViewController.m */,
+				BD1B837D1A2FAE3800932B6E /* Supporting Files */,
+				BD000D761A31FE3C0033F7AF /* UserMembershipTableViewCell.h */,
+				BD000D771A31FE3C0033F7AF /* UserMembershipTableViewCell.m */,
+				BD7901041A2FCF99002B4044 /* UsersTableViewController.h */,
+				BD7901051A2FCF99002B4044 /* UsersTableViewController.m */,
+				BD1B83841A2FAE3800932B6E /* ViewController.h */,
+				BD1B83851A2FAE3800932B6E /* ViewController.m */,
 			);
 			path = "Canvas Groups";
 			sourceTree = "<group>";
@@ -318,10 +323,11 @@
 				BDFD2AD51A30CA7F006784CE /* NewGroupViewController.m in Sources */,
 				BD1B83A51A2FB56E00932B6E /* CanvasKitManager.m in Sources */,
 				BD1B83861A2FAE3800932B6E /* ViewController.m in Sources */,
+				5E0594D81A363FA80042B46F /* CategoriesTableViewController.m in Sources */,
 				BD1B83831A2FAE3800932B6E /* AppDelegate.m in Sources */,
 				BDE9FDA41A325F3A00E369EB /* CoursesTableViewController.m in Sources */,
 				BD7901061A2FCF99002B4044 /* UsersTableViewController.m in Sources */,
-				BD000D721A310BFE0033F7AF /* InviteUsersTableViewController.m in Sources */,
+				BD000D721A310BFE0033F7AF /* EditGroupUserTableViewController.m in Sources */,
 				BD1B83801A2FAE3800932B6E /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

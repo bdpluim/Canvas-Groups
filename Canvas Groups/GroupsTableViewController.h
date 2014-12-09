@@ -7,8 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CanvasKit.h>
+
+@class CKICourse;
+@class CKIGroupCategory;
 
 @interface GroupsTableViewController : UITableViewController
+
 @property (nonatomic, strong) CKICourse *course;
+@property (nonatomic, strong) CKIGroupCategory *category;
+
 @end

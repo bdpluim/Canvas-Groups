@@ -2,7 +2,7 @@
 # platform :ios, '6.0'
 
 target 'Canvas Groups' do
-    pod "CanvasKit", :path => "~/Source/iOS/Libs/CanvasKit"
+    pod "CanvasKit", :path => "../ios-canvaskit"
 end
 
 target 'Canvas GroupsTests' do

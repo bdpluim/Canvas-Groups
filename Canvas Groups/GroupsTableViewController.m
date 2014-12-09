@@ -7,6 +7,9 @@
 //
 
 #import "GroupsTableViewController.h"
+
+#import <CanvasKit/CanvasKit.h>
+
 #import "CanvasKitManager.h"
 #import "UsersTableViewController.h"
 #import "NewGroupViewController.h"
@@ -17,44 +20,38 @@
 
 @implementation GroupsTableViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    NSLog(@"%@", NSStringFromClass(self.class));
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.groups = [NSMutableArray new];
+    [self.tableView reloadData];
     
-    [[[[CanvasKitManager sharedInstance] client] fetchGroupsForContext:self.course] subscribeNext:^(NSArray *groups) {
-        self.groups = [groups mutableCopy];
-        [self.tableView reloadData];
+    [[[[CanvasKitManager sharedInstance] client] fetchGroupsForGroupCategory:self.category] subscribeNext:^(NSArray *groups) {
+        NSLog(@"Fetched a Single Page of Groups");
+
+        [self.groups addObjectsFromArray:groups];
     } error:^(NSError *error) {
-        NSLog(@"Error finding groups for course");
+        [self showAlertWithTitle:@"ERROR FETCHING COURSES" message:[NSString stringWithFormat:@"Error: %@", [error localizedDescription]]];
+    } completed:^{
+        NSLog(@"Finished Fetching Groups");
+        
+        [self.groups sortUsingComparator:^NSComparisonResult(CKIGroup *group1, CKIGroup *group2) {
+            return [group1.name compare:group2.name];
+        }];
+        
+        [self.tableView reloadData];
     }];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - User Input
-
-- (IBAction)addGroupButtonTouched:(UIButton *)sender {
-    // Show add group UI
-    
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
     return self.groups.count;
 }
 
@@ -62,7 +59,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GroupCellIdentifier" forIndexPath:indexPath];
     
-    // Configure the cell...
     CKIGroup *group = self.groups[indexPath.row];
     cell.textLabel.text = group.name;
     return cell;
@@ -73,55 +69,50 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle != UITableViewCellEditingStyleDelete) {
+        return;
+    }
     
-    CKIGroup *group = self.groups[indexPath.row];
-    [[[[CanvasKitManager sharedInstance] client] deleteGroup:group] subscribeNext:^(id x) {
-        NSLog(@"Success");
-        [self showAlertWithTitle:@"Success!" message:@"Groups was deleted."];
-    } error:^(NSError *error) {
-        NSLog(@"Failure");
-        [self showAlertWithTitle:@"Failure :(" message:@"Could not delete the group"];
-    }];
-    
+    __block CKIGroup *group = self.groups[indexPath.row];
     [self.tableView beginUpdates];
     [self.groups removeObject:group];
     [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.tableView endUpdates];
+    
+    [[[[CanvasKitManager sharedInstance] client] deleteGroup:group] subscribeError:^(NSError *error) {
+        [self.tableView beginUpdates];
+        NSUInteger indexToAdd = [self.groups indexOfObject:group inSortedRange:NSMakeRange(0, [self.groups count]) options:NSBinarySearchingInsertionIndex usingComparator:^NSComparisonResult(CKIGroup *group1, CKIGroup *group2) {
+            return [group1.name compare:group2.name];
+        }];
+        
+        [self.groups insertObject:group atIndex:indexToAdd];
+        [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexToAdd inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView endUpdates];
+        
+        [self showAlertWithTitle:@"ERROR DELETING GROUP" message:[NSString stringWithFormat:@"Error: %@", [error localizedDescription]]];
+    } completed:^{
+        NSLog(@"Group Deleted Successfully");
+    }];
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+#pragma mark - Navigation
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"GroupSegue"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        CKIGroup *selectedGroup = self.groups[indexPath.row];
+        UsersTableViewController *usersController = segue.destinationViewController;
+        usersController.group = selectedGroup;
+        usersController.category = self.category;
+    } else {
+        UINavigationController *navController = segue.destinationViewController;
+        NewGroupViewController *controller = navController.viewControllers[0];
+        controller.category = self.category;
+        controller.delegate = self;
+    }
 }
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
+#pragma mark - Alerts
 
 - (void)showAlertWithTitle:(NSString *)title message:(NSString *)message {
     UIAlertController *controller = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
@@ -131,31 +122,11 @@
     [self presentViewController:controller animated:YES completion:nil];
 }
 
-- (void)shouldSaveNewGroup:(CKIGroup *)group {
-    group.joinLevel = CKIGroupJoinLevelInvitationOnly;
-    [[[[CanvasKitManager sharedInstance] client] createGroup:group] subscribeNext:^(CKIGroup *newGroup) {
-        [self.groups addObject:newGroup];
-        [self.tableView reloadData];
-    } error:^(NSError *error) {
-        [self showAlertWithTitle:@"Error!" message:@"Something happened and I don't think your group was created :("];
-    }];
+- (void)newGroupCreated:(CKIGroup *)group {
+    [self.tableView beginUpdates];
+    [self.groups addObject:group];
+    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:(self.groups.count - 1) inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView endUpdates];
 }
-
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"GroupSegue"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        CKIGroup *selectedGroup = self.groups[indexPath.row];
-        UsersTableViewController *usersController = segue.destinationViewController;
-        usersController.group = selectedGroup;
-    } else {
-        UINavigationController *navController = segue.destinationViewController;
-        NewGroupViewController *controller = navController.viewControllers[0];
-        controller.delegate = self;
-    }
-}
-
 
 @end

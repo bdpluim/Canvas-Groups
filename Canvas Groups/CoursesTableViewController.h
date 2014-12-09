@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CanvasKit.h>
 
 @interface CoursesTableViewController : UITableViewController
 @end

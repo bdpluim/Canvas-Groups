@@ -1,1 +1,0 @@
-PODS_CANVAS_GROUPS_MANTLE_OTHER_LDFLAGS = -framework "Foundation"

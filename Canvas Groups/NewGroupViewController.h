@@ -7,17 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CanvasKit.h>
+
+@class CKIGroup;
+@class CKICourse;
+@class CKIGroupCategory;
 
 @protocol NewGroupViewControllerDelegate;
 
 @interface NewGroupViewController : UIViewController
+
+@property (nonatomic, weak) id<NewGroupViewControllerDelegate> delegate;
 @property (nonatomic, strong) CKIGroup *group;
-@property (nonatomic, weak) id <NewGroupViewControllerDelegate> delegate;
+@property (nonatomic, strong) CKIGroupCategory *category;
+
 @end
 
 @protocol NewGroupViewControllerDelegate <NSObject>
 
-- (void)shouldSaveNewGroup:(CKIGroup *)group;
+- (void)newGroupCreated:(CKIGroup *)group;
 
 @end
